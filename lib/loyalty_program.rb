@@ -12,13 +12,22 @@ class LoyaltyProgram
     INR => 80,
     SGD => 50
   }
-  attr_accessor :users
+
+  attr_reader :users, :transactions
 
   def initialize
     @users = []
+    @transactions = []
   end
 
   def add_user(user)
     @users << user
+  end
+
+  # add transaction
+  def create_transaction(user: , currency:, amount: , date: )
+    raise 'USER NOT PRESENT IN THE SYSTEM' unless @users.include?(user)
+
+    @transactions << Transaction.new(user:, currency:, amount:, date:)
   end
 end
