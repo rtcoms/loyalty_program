@@ -13,4 +13,14 @@ class LoyaltyProgram
   def set_user(user)
     @users[user.id] = user
   end
+
+  def add_transaction(transaction)
+    raise 'INVALID USER' if @users[transaction.user.id].nil?
+
+    @transactions << transaction
+  end
+
+  def transactions_for(user:)
+    @transactions.select { |t| t.user.id == user.id }
+  end
 end
