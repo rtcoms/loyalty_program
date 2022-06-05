@@ -1,6 +1,8 @@
 require_relative '../lib/loyalty_program.rb'
 require_relative '../lib/user.rb'
 require_relative '../lib/transaction.rb'
+require_relative '../lib/config.rb'
+
 require 'test/unit'
 
 class LoyaltyProgramTest < Test::Unit::TestCase
@@ -11,22 +13,5 @@ class LoyaltyProgramTest < Test::Unit::TestCase
 
     assert_equal(loyalty_program.users.keys.size, 1)
     assert_equal(loyalty_program.users.values.first.name, 'Rohit')
-  end
-
-  def test_create_transaction
-    loyalty_program = LoyaltyProgram.new
-    user = User.new(name: 'Rohit')
-    loyalty_program.set_user(user)
-    loyalty_program.create_transaction(user: user, currency: LoyaltyProgram::USD, amount: 100, date: '2019-01-01')
-
-    assert_equal(loyalty_program.transactions.size, 1)
-    assert_equal(loyalty_program.transactions[0].user.name, 'Rohit')
-  end
-
-  def test_create_transaction_validations
-    loyalty_program = LoyaltyProgram.new
-    user = User.new(name: 'Rohit')
-
-    assert_raise(RuntimeError) { loyalty_program.create_transaction(user: user, currency: LoyaltyProgram::USD, amount: 100, date: '2019-01-01') }
   end
 end
