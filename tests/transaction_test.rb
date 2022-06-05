@@ -35,7 +35,8 @@ class TransactionTest < Test::Unit::TestCase
     assert_equal(transactions.map(&:user).uniq.count, 1)
     assert_equal(transactions.map(&:currency).uniq.count, 1)
 
+    date = Date.parse('2019-01-01')
     # all transaction dates are for month of date
-    assert_equal(transactions.map{|d| date.month }.uniq, [Date.parse(date)])
+    assert_equal(transactions.map{|d| date.month }.uniq, [date.month])
   end
 end

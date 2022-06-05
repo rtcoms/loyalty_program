@@ -10,11 +10,11 @@ class Transaction
 
   def initialize(user:, currency:, amount:, date:)
     raise 'INVALID TRANSACTION CURRENCY' unless Config::SUPPORTED_CURRENCY_LIST.include?(currency)
-    raise 'INVALID TRANSACTION AMOUNT' if !amount.is_a?(Integer) || amount <= 0
+    raise 'INVALID TRANSACTION AMOUNT' if amount.to_i <= 0
 
     @user = user
     @currency = currency
-    @amount = amount
+    @amount = amount.to_i
     @date = date
   end
 
@@ -25,7 +25,8 @@ class Transaction
   # create x transactions with total amount equal to amount in give month
   # and date is in given month
   def self.create_transactions_for_user(user:, currency:, amount:, date:, number_of_transactions: )
-    amounts_array = amount.rand_sum(number_of_transactions)
+    amounts_array = amount.to_i.rand_sum(number_of_transactions)
+
     random_date_for_month = amounts_array.map do |_amount|
       start_date = Date.parse(date).beginning_of_month
       end_date = Date.parse(date).end_of_month
@@ -33,8 +34,8 @@ class Transaction
       (start_date..end_date).to_a.sample
     end.sort
 
-    amounts_array.each_with_index do |amount, index|
-      create_transaction(user: user, currency: currency, amount: amount, date: random_date_for_month[index])
+    amounts_array.map.with_index do |amount, index|
+      create_transaction(user: user, currency: currency, amount: amount, date: random_date_for_month[index].to_s)
     end
   end
 end
