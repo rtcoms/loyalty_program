@@ -9,7 +9,7 @@ class RuleEngine
     @rules << rule
   end
 
-  def run(user:, month:)
+  def run(user:, month:, trigger_type: :transaction)
     raise 'NOT IMPLEMENTED'
   end
 end

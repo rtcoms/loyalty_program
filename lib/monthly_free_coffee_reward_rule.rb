@@ -1,7 +1,7 @@
-require_relative './calendar_month_rule'
+require_relative './rule'
 require_relative './reward_coffee_event'
 
-class MonthlyFreeCoffeeRewardRule < CalendarMonthRule
+class MonthlyFreeCoffeeRewardRule < Rule
   POINTS_REQUIRED_FOR_COFFEE = 100
 
   def should_apply?(user:, month:)

@@ -2,9 +2,10 @@ require 'securerandom'
 require_relative './config'
 
 class User
-  attr_reader :id, :name, :points_details, :transactions, :reward_details, :tier, :native_currency
+  attr_reader :id, :name, :points_details, :transactions, :reward_details, :tier, :native_currency,
+              :date_of_birth, :birthday_coffee_reward
 
-  def initialize(name: )
+  def initialize(name: , date_of_birth: '2022-02-01')
     @id = SecureRandom.uuid
     @name = name
     @transactions = []
@@ -12,6 +13,8 @@ class User
     @reward_details = { monthwise_rewards: {} }
     @tier = :standard_tier
     @native_currency = Config::USD
+    @date_of_birth = Date.parse(date_of_birth)
+    @birthday_coffee_reward = false
   end
 
   def set_points_details(points_details)
@@ -56,5 +59,18 @@ class User
     return false if @reward_details[:monthwise_rewards][month].nil?
 
     @reward_details[:monthwise_rewards][month][:free_coffee].to_i > 0
+  end
+
+  def is_birthday_month?(month)
+    month == @date_of_birth.strftime('%Y-%m')
+  end
+
+  def has_free_birthday_coffee_for_year?(year)
+    @birthday_coffee_reward
+  end
+
+  def assign_birthday_coffee_reward
+    @birthday_coffee_reward = true
+    self
   end
 end

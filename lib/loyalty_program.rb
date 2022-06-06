@@ -33,12 +33,27 @@ class LoyaltyProgram
     set_user(user)
 
     @rule_engines.each do |rule_engine|
-      events = rule_engine.run(user: user, month: transaction.date.strftime('%Y-%m'))
+      events = rule_engine.run(user: user, month: transaction.date.strftime('%Y-%m'), trigger_type: :transaction)
 
       events.each do |event|
         updated_user = event.apply(user)
         set_user(updated_user)
       end
     end
+  end
+
+  def run_rule_engines_for_month(month, trigger_type: :monthly)
+    @users.each do |id, user|
+      @rule_engines.each do |rule_engine|
+        puts 'MONTHLY TRIGGER'
+        events = rule_engine.run(user: user, month: month, trigger_type: trigger_type)
+
+        events.each do |event|
+          updated_user = event.apply(user)
+          set_user(updated_user)
+        end
+      end
+    end
+
   end
 end
