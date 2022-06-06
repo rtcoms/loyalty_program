@@ -61,4 +61,27 @@ class LoyaltyProgramTest < Test::Unit::TestCase
     assert_equal(loyalty_program.transactions_for(user: user).size, 1)
     assert_equal(loyalty_program.get_user(user.id).points_details, { commulative_points: 10 })
   end
+
+  def test_monthwise_transactions_for_user
+    loyalty_program = LoyaltyProgram.new
+    user = User.new(name: 'Rohit')
+
+    loyalty_program.set_user(user)
+
+    user_transaction1 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: '2022-01-01')
+    loyalty_program.add_transaction(user_transaction1)
+
+    user_transaction2 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: '2022-02-01')
+    loyalty_program.add_transaction(user_transaction2)
+
+    user_transaction3 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 200, date: '2022-02-01')
+    loyalty_program.add_transaction(user_transaction3)
+
+    monthwise_transactions = {
+      '2022-01' => [user_transaction1],
+      '2022-02' => [user_transaction2, user_transaction3]
+    }
+
+    assert_equal(loyalty_program.monthwise_transactions_for_user(user: user), monthwise_transactions)
+  end
 end

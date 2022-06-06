@@ -40,4 +40,8 @@ class LoyaltyProgram
   def transactions_for(user:)
     @transactions.select { |t| t.user.id == user.id }
   end
+
+  def monthwise_transactions_for_user(user:)
+    transactions_for(user: user).group_by { |t| t.date.strftime('%Y-%m') }
+  end
 end
