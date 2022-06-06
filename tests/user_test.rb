@@ -45,4 +45,21 @@ class UserTest < Test::Unit::TestCase
     user.add_transaction(transaction3)
     assert_equal(user.current_month_transactions, [transaction2, transaction3])
   end
+
+  def test_transactions_for_month
+    user = User.new(name: 'Doe')
+    transaction1 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: '2022-01-01')
+    transaction2 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: '2022-02-01')
+    transaction3 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: '2022-03-01')
+    user.add_transaction(transaction1)
+    user.add_transaction(transaction2)
+    user.add_transaction(transaction3)
+    assert_equal(user.transactions_for_month('2022-01'), [transaction1])
+  end
+
+  def test_points_for_month
+    user = User.new(name: 'Doe')
+    user.set_points_details({ commulative_points: 100, monthwise_points: [{ month: '2022-01', points: 20 }, { month: '2022-02', points: 30 }] })
+    assert_equal(user.points_for_month('2022-02'), 30)
+  end
 end

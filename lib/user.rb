@@ -1,7 +1,7 @@
 require 'securerandom'
 
 class User
-  attr_reader :id, :name, :points_details, :transactions
+  attr_reader :id, :name, :points_details, :transactions, :reward_details
 
   def initialize(name: )
     @id = SecureRandom.uuid
@@ -18,10 +18,14 @@ class User
   end
 
   def monthwise_transactions
-    @transactions.group_by { |t| t.date.strftime('%Y-%m') }
+    @monthwise_transaction ||= @transactions.group_by { |t| t.date.strftime('%Y-%m') }
   end
 
-  def current_month_transactions
-    monthwise_transactions[Date.today.strftime('%Y-%m')]
+  def transactions_for_month(month)
+    monthwise_transactions[month]
+  end
+
+  def points_for_month(month)
+    @points_details[:monthwise_points].find { |p| p[:month] == month }[:points]
   end
 end
