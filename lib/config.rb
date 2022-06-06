@@ -10,4 +10,10 @@ class Config
     INR => 80,
     SGD => 50
   }
+
+  STANDARD_TIER = :standard_tier
+  GOLD_TIER = :gold_tier
+  PLATINUM_TIER = :platinum_tier
+
+  TIERS_LIST = [STANDARD_TIER, GOLD_TIER, PLATINUM_TIER]
 end

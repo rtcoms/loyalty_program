@@ -1,5 +1,4 @@
 require_relative './event'
-require_relative './points_earned_event'
 
 class PointsEarnedEvent < Event
   attr_reader :points, :user

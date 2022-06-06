@@ -1,7 +1,7 @@
 require 'securerandom'
 
 class User
-  attr_reader :id, :name, :points_details, :transactions, :reward_details
+  attr_reader :id, :name, :points_details, :transactions, :reward_details, :tier
 
   def initialize(name: )
     @id = SecureRandom.uuid
@@ -9,6 +9,7 @@ class User
     @transactions = []
     @points_details = { commulative_points: 0, monthwise_points: [] }
     @reward_details = { monthwise_rewards: {} }
+    @tier = :standard_tier
   end
 
   def set_points_details(points_details)
@@ -18,6 +19,11 @@ class User
 
   def add_transaction(transaction)
     @transactions << transaction
+    self
+  end
+
+  def assign_tier(tier:)
+    @tier = tier
     self
   end
 
