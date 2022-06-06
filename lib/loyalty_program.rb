@@ -29,7 +29,8 @@ class LoyaltyProgram
     @transactions << transaction
 
     @rule_engines.each do |rule_engine|
-      events = rule_engine.run(user: transaction.user, transactions: transactions_for(user: transaction.user))
+      events = rule_engine.run(user: transaction.user, monthwise_transactions: monthwise_transactions_for_user(user: transaction.user))
+
       events.each do |event|
         updated_user = event.apply(get_user(transaction.user.id))
         set_user(updated_user)
