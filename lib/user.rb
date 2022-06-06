@@ -1,7 +1,8 @@
 require 'securerandom'
+require_relative './config'
 
 class User
-  attr_reader :id, :name, :points_details, :transactions, :reward_details, :tier
+  attr_reader :id, :name, :points_details, :transactions, :reward_details, :tier, :native_currency
 
   def initialize(name: )
     @id = SecureRandom.uuid
@@ -10,6 +11,7 @@ class User
     @points_details = { commulative_points: 0, monthwise_points: [] }
     @reward_details = { monthwise_rewards: {} }
     @tier = :standard_tier
+    @native_currency = Config::USD
   end
 
   def set_points_details(points_details)
@@ -36,7 +38,7 @@ class User
   end
 
   def points_for_month(month)
-    @points_details[:monthwise_points].find { |p| p[:month] == month }[:points]
+    @points_details[:monthwise_points][month] || 0
   end
 
   def reward_free_coffee_for_month(month)

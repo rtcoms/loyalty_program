@@ -11,12 +11,13 @@ class AmountSpentPointEarningRule < Rule
   end
 
   def apply(user:)
-    points_earned = (user.monthwise_transactions.values.flatten.map(&:amount).sum / AMOUNT_SPENT) * REWARD_POINTS
+    points_earned = user.monthwise_transactions.values.flatten.map{|txn| txn.calculate_points(amount_for_points: AMOUNT_SPENT, reward_points: REWARD_POINTS)}.sum
 
+    monthwise_points_earned = {}
     monthwise_points = user.monthwise_transactions.map do |month, transactions|
-      { month: month, points: transactions.map(&:amount).sum / AMOUNT_SPENT * REWARD_POINTS }
+      monthwise_points_earned[month] = transactions.map{|txn| txn.calculate_points(amount_for_points: AMOUNT_SPENT, reward_points: REWARD_POINTS) }.sum
     end
 
-    PointsEarnedEvent.new(user: user, data: { quantity: points_earned, monthwise_points: monthwise_points })
+    PointsEarnedEvent.new(user: user, data: { quantity: points_earned, monthwise_points: monthwise_points_earned })
   end
 end

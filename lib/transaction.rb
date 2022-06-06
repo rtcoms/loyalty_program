@@ -6,7 +6,7 @@ require 'active_support/all'
 
 class Transaction
 
-  attr_reader :user, :currency, :amount, :date
+  attr_reader :user, :currency, :amount, :date, :amount_in_usd, :points_multiplier
 
   def initialize(user:, currency:, amount:, date:)
     raise 'INVALID TRANSACTION CURRENCY' unless Config::SUPPORTED_CURRENCY_LIST.include?(currency)
@@ -16,6 +16,17 @@ class Transaction
     @currency = currency
     @amount = amount.to_i
     @date = date
+    @amount_in_usd = (Config::EXCHANGE_RATES[@currency][Config::USD] * @amount).to_i
+    @points_multiplier = @user.native_currency == @currency ? 1 : 2
+  end
+
+  def set_points_multiplier(multiplier)
+    @points_multiplier = multiplier
+    self
+  end
+
+  def calculate_points(amount_for_points: , reward_points:)
+    (@amount_in_usd / amount_for_points) * reward_points * @points_multiplier
   end
 
   def self.create_transaction(user:, currency:, amount:, date:)

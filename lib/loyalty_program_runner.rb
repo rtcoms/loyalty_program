@@ -37,7 +37,7 @@ puts loyalty_program.get_user(user.id).points_details
 puts loyalty_program.get_user(user.id).reward_details
 
 
-transaction = Transaction.create_transaction(user: user, currency: Config::USD, amount: 1000, date: '2022-01-01')
+transaction = Transaction.create_transaction(user: user, currency: Config::USD, amount: 1000, date: '2022-02-01')
 
 loyalty_program.add_transaction(transaction)
 
@@ -45,7 +45,7 @@ puts '=================='
 puts loyalty_program.get_user(user.id).points_details
 puts loyalty_program.get_user(user.id).reward_details
 
-transaction = Transaction.create_transaction(user: user, currency: Config::USD, amount: 1000, date: '2022-01-01')
+transaction = Transaction.create_transaction(user: user, currency: Config::USD, amount: 1000, date: '2022-02-01')
 
 loyalty_program.add_transaction(transaction)
 
@@ -55,7 +55,16 @@ puts loyalty_program.get_user(user.id).reward_details
 puts loyalty_program.get_user(user.id).tier
 
 
-transaction = Transaction.create_transaction(user: user, currency: Config::USD, amount: 10000, date: '2022-01-01')
+transaction = Transaction.create_transaction(user: user, currency: Config::USD, amount: 10000, date: '2022-02-01')
+
+loyalty_program.add_transaction(transaction)
+
+puts '=================='
+puts loyalty_program.get_user(user.id).points_details
+puts loyalty_program.get_user(user.id).reward_details
+puts loyalty_program.get_user(user.id).tier
+
+transaction = Transaction.create_transaction(user: user, currency: Config::SGD, amount: 10000, date: '2022-03-01')
 
 loyalty_program.add_transaction(transaction)
 
