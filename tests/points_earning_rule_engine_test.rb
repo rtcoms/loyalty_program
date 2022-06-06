@@ -20,9 +20,13 @@ class PointsEarningRuleEngineTest < Test::Unit::TestCase
     user = User.new(name: 'Rohit')
     transaction1 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: '2022-01-01')
     transaction2 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: '2022-01-01')
-    events = rule_engine.run(user: user, transactions: [transaction1, transaction2])
 
-    assert_equal(events.first.type, :points_earned)
-    assert_equal(events.first.data[:quantity], 20)
+    user.add_transaction(transaction1)
+    user.add_transaction(transaction2)
+
+    events = rule_engine.run(user: user)
+
+    assert_equal(events.first.class, PointsEarnedEvent)
+    assert_equal(events.first.data, {:quantity=>20, :monthwise_points=>[{:month=>"2022-01", :points=>20}]})
   end
 end

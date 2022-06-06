@@ -26,23 +26,16 @@ class LoyaltyProgram
   def add_transaction(transaction)
     raise 'INVALID USER' if @users[transaction.user.id].nil?
 
-    @transactions << transaction
+    user = @users[transaction.user.id]
+    user.add_transaction(transaction)
 
     @rule_engines.each do |rule_engine|
-      events = rule_engine.run(user: transaction.user, monthwise_transactions: monthwise_transactions_for_user(user: transaction.user))
+      events = rule_engine.run(user: user)
 
       events.each do |event|
-        updated_user = event.apply(get_user(transaction.user.id))
+        updated_user = event.apply(user)
         set_user(updated_user)
       end
     end
-  end
-
-  def transactions_for(user:)
-    @transactions.select { |t| t.user.id == user.id }
-  end
-
-  def monthwise_transactions_for_user(user:)
-    transactions_for(user: user).group_by { |t| t.date.strftime('%Y-%m') }
   end
 end

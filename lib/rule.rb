@@ -1,11 +1,11 @@
 # class Rule
 
 class Rule
-  def should_apply?(user: nil, monthwise_transactions: [])
+  def should_apply?(user:)
     raise 'NOT IMPLEMENTED'
   end
 
-  def apply(user: nil, monthwise_transactions: [])
+  def apply(user:)
     raise 'NOT IMPLEMENTED'
   end
 end

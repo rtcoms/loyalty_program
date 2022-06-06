@@ -6,14 +6,14 @@ class AmountSpentPointEarningRule < Rule
   AMOUNT_SPENT = 100
   REWARD_POINTS = 10
 
-  def should_apply?(user:, monthwise_transactions:)
+  def should_apply?(user:)
     true
   end
 
-  def apply(user: nil, monthwise_transactions: [])
-    points_earned = (monthwise_transactions.values.flatten.map(&:amount).sum / AMOUNT_SPENT) * REWARD_POINTS
+  def apply(user:)
+    points_earned = (user.monthwise_transactions.values.flatten.map(&:amount).sum / AMOUNT_SPENT) * REWARD_POINTS
 
-    monthwise_points = monthwise_transactions.map do |month, transactions|
+    monthwise_points = user.monthwise_transactions.map do |month, transactions|
       { month: month, points: transactions.map(&:amount).sum / AMOUNT_SPENT * REWARD_POINTS }
     end
 
