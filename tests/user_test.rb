@@ -34,4 +34,15 @@ class UserTest < Test::Unit::TestCase
     user.add_transaction(transaction3)
     assert_equal(user.monthwise_transactions, { '2022-01' => [transaction1], '2022-02' => [transaction2], '2022-03' => [transaction3] })
   end
+
+  def test_current_month_transactions
+    user = User.new(name: 'Doe')
+    transaction1 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: '2022-01-01')
+    transaction2 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: Date.today.to_s)
+    transaction3 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: Date.today.to_s)
+    user.add_transaction(transaction1)
+    user.add_transaction(transaction2)
+    user.add_transaction(transaction3)
+    assert_equal(user.current_month_transactions, [transaction2, transaction3])
+  end
 end
