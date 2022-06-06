@@ -1,6 +1,7 @@
 # class loyalty_programm which have multiple users and transaction, config and rule engine
 require_relative './points_earning_rule_engine'
 require_relative './config'
+require 'pry'
 
 class LoyaltyProgram
   attr_reader :users, :transactions
@@ -24,13 +25,15 @@ class LoyaltyProgram
   end
 
   def add_transaction(transaction)
-    raise 'INVALID USER' if @users[transaction.user.id].nil?
+    user = get_user(transaction.user.id)
 
-    user = @users[transaction.user.id]
-    user.add_transaction(transaction)
+    raise 'INVALID USER' if user.nil?
+
+    user = user.add_transaction(transaction)
+    set_user(user)
 
     @rule_engines.each do |rule_engine|
-      events = rule_engine.run(user: user)
+      events = rule_engine.run(user: user, month: transaction.date.strftime('%Y-%m'))
 
       events.each do |event|
         updated_user = event.apply(user)
