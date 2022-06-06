@@ -9,7 +9,7 @@ class RuleEngine
     @rules << rule
   end
 
-  def run(user:)
+  def run(user:, month:)
     raise 'NOT IMPLEMENTED'
   end
 end
