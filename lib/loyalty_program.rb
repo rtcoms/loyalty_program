@@ -8,16 +8,33 @@ class LoyaltyProgram
   def initialize
     @users = {}
     @transactions = []
+    @rule_engines = []
   end
 
   def set_user(user)
     @users[user.id] = user
   end
 
+  def get_user(id)
+    @users[id]
+  end
+
+  def add_rule_engine(rule_engine)
+    @rule_engines << rule_engine
+  end
+
   def add_transaction(transaction)
     raise 'INVALID USER' if @users[transaction.user.id].nil?
 
     @transactions << transaction
+
+    @rule_engines.each do |rule_engine|
+      events = rule_engine.run(user: transaction.user, transactions: transactions_for(user: transaction.user))
+      events.each do |event|
+        updated_user = event.apply(get_user(transaction.user.id))
+        set_user(updated_user)
+      end
+    end
   end
 
   def transactions_for(user:)

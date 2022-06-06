@@ -8,4 +8,8 @@ class Event
     @user = user
     @data = data
   end
+
+  def apply(user)
+    raise 'NOT IMPLEMENTED'
+  end
 end
