@@ -17,9 +17,6 @@ class AmountSpentPointEarningRule < Rule
       { month: month, points: transactions.map(&:amount).sum / AMOUNT_SPENT * REWARD_POINTS }
     end
 
-    puts '============'
-    puts monthwise_points
-
     PointsEarnedEvent.new(user: user, data: { quantity: points_earned, monthwise_points: monthwise_points })
   end
 end
