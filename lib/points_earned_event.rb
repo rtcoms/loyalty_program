@@ -11,7 +11,7 @@ class PointsEarnedEvent < Event
 
   def apply(user)
     user.set_points_details(
-      { commulative_points: @data[:quantity]}
+      { commulative_points: @data[:quantity], monthwise_points: @data[:monthwise_points] }
     )
     user
   end

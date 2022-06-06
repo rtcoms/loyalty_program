@@ -59,7 +59,7 @@ class LoyaltyProgramTest < Test::Unit::TestCase
     loyalty_program.add_transaction(transaction1)
 
     assert_equal(loyalty_program.transactions_for(user: user).size, 1)
-    assert_equal(loyalty_program.get_user(user.id).points_details, { commulative_points: 10 })
+    assert_equal(loyalty_program.get_user(user.id).points_details, { commulative_points: 10, monthwise_points: [{month: '2022-01', points: 10 }]})
   end
 
   def test_monthwise_transactions_for_user

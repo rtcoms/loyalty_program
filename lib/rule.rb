@@ -1,8 +1,6 @@
 # class Rule
 
 class Rule
-  attr_reader :type
-
   def should_apply?(user: nil, monthwise_transactions: [])
     raise 'NOT IMPLEMENTED'
   end
