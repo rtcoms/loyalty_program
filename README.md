@@ -48,3 +48,60 @@ your workflow like.
 Your code will be evaluated more on the quality than on completing the scope.
 Our production environment is a high volume environment, we are required to maintain data integrity and performance throughout.
 Please provide appropriate tests.
+
+# Sample output
+
+******** TRANSACTION ********
+{:user=>"e9d65600-93c8-4c3d-82bb-57edac4a4260", :currency=>"usd", :amount=>100, :date=>"2022-01-01", :amount_in_usd=>100, :points_multiplier=>1}
+********
+==================
+{:commulative_points=>10, :monthwise_points=>{"2022-01"=>10}}
+{:monthwise_rewards=>{}}
+Birthday coffee: false
+******** TRANSACTION ********
+{:user=>"e9d65600-93c8-4c3d-82bb-57edac4a4260", :currency=>"usd", :amount=>1000, :date=>"2022-02-01", :amount_in_usd=>1000, :points_multiplier=>1}
+********
+==================
+{:commulative_points=>110, :monthwise_points=>{"2022-01"=>10, "2022-02"=>100}}
+{:monthwise_rewards=>{"2022-02"=>{:free_coffee=>1}}}
+Birthday coffee: false
+******** TRANSACTION ********
+{:user=>"e9d65600-93c8-4c3d-82bb-57edac4a4260", :currency=>"usd", :amount=>1000, :date=>"2022-02-01", :amount_in_usd=>1000, :points_multiplier=>1}
+********
+==================
+{:commulative_points=>210, :monthwise_points=>{"2022-01"=>10, "2022-02"=>200}}
+{:monthwise_rewards=>{"2022-02"=>{:free_coffee=>1}}}
+standard_tier
+Birthday coffee: false
+******** TRANSACTION ********
+{:user=>"e9d65600-93c8-4c3d-82bb-57edac4a4260", :currency=>"usd", :amount=>10000, :date=>"2022-02-01", :amount_in_usd=>10000, :points_multiplier=>1}
+********
+==================
+{:commulative_points=>1210, :monthwise_points=>{"2022-01"=>10, "2022-02"=>1200}}
+{:monthwise_rewards=>{"2022-02"=>{:free_coffee=>1}}}
+gold_tier
+Birthday coffee: false
+******** TRANSACTION ********
+{:user=>"e9d65600-93c8-4c3d-82bb-57edac4a4260", :currency=>"sgd", :amount=>10000, :date=>"2022-03-01", :amount_in_usd=>7000, :points_multiplier=>2}
+********
+==================
+{:commulative_points=>2610, :monthwise_points=>{"2022-01"=>10, "2022-02"=>1200, "2022-03"=>1400}}
+{:monthwise_rewards=>{"2022-02"=>{:free_coffee=>1}, "2022-03"=>{:free_coffee=>1}}}
+gold_tier
+Birthday coffee: false
+******** BEGINNING OF MONTH JOB TO CHECK BIRTHDAY REWARD ********
+MONTHLY TRIGGER
+MONTHLY TRIGGER
+MONTHLY TRIGGER
+==================
+{:commulative_points=>2610, :monthwise_points=>{"2022-01"=>10, "2022-02"=>1200, "2022-03"=>1400}}
+{:monthwise_rewards=>{"2022-02"=>{:free_coffee=>1}, "2022-03"=>{:free_coffee=>1}}}
+gold_tier
+Birthday coffee: true
+
+
+# Learning
+
+* Should've avoided making multiple rule enginer and rather than should've focus on having custom triggers for rules
+* SHould've use array for store rewards
+* Should've created separate classes for each type of rewards

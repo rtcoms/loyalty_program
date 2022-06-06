@@ -20,6 +20,17 @@ class Transaction
     @points_multiplier = @user.native_currency == @currency ? 1 : 2
   end
 
+  def to_h
+    {
+      user: @user.id,
+      currency: @currency,
+      amount: @amount,
+      date: @date.strftime('%Y-%m-%d'),
+      amount_in_usd: @amount_in_usd,
+      points_multiplier: @points_multiplier
+    }
+  end
+
   def set_points_multiplier(multiplier)
     @points_multiplier = multiplier
     self

@@ -32,6 +32,10 @@ loyalty_program.add_rule_engine(loyalt_rule_engine)
 
 transaction = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: '2022-01-01')
 
+puts '******** TRANSACTION ********'
+puts transaction.to_h
+puts '********'
+
 loyalty_program.add_transaction(transaction)
 
 puts '=================='
@@ -41,6 +45,10 @@ puts "Birthday coffee: #{ loyalty_program.get_user(user.id).birthday_coffee_rewa
 
 
 transaction = Transaction.create_transaction(user: user, currency: Config::USD, amount: 1000, date: '2022-02-01')
+puts '******** TRANSACTION ********'
+puts transaction.to_h
+puts '********'
+
 
 loyalty_program.add_transaction(transaction)
 
@@ -50,6 +58,9 @@ puts loyalty_program.get_user(user.id).reward_details
 puts "Birthday coffee: #{ loyalty_program.get_user(user.id).birthday_coffee_reward }"
 
 transaction = Transaction.create_transaction(user: user, currency: Config::USD, amount: 1000, date: '2022-02-01')
+puts '******** TRANSACTION ********'
+puts transaction.to_h
+puts '********'
 
 loyalty_program.add_transaction(transaction)
 
@@ -61,6 +72,9 @@ puts "Birthday coffee: #{ loyalty_program.get_user(user.id).birthday_coffee_rewa
 
 
 transaction = Transaction.create_transaction(user: user, currency: Config::USD, amount: 10000, date: '2022-02-01')
+puts '******** TRANSACTION ********'
+puts transaction.to_h
+puts '********'
 
 loyalty_program.add_transaction(transaction)
 
@@ -71,6 +85,9 @@ puts loyalty_program.get_user(user.id).tier
 puts "Birthday coffee: #{ loyalty_program.get_user(user.id).birthday_coffee_reward }"
 
 transaction = Transaction.create_transaction(user: user, currency: Config::SGD, amount: 10000, date: '2022-03-01')
+puts '******** TRANSACTION ********'
+puts transaction.to_h
+puts '********'
 
 loyalty_program.add_transaction(transaction)
 
@@ -82,7 +99,7 @@ puts "Birthday coffee: #{ loyalty_program.get_user(user.id).birthday_coffee_rewa
 
 
 
-
+puts '******** BEGINNING OF MONTH JOB TO CHECK BIRTHDAY REWARD ********'
 loyalty_program.run_rule_engines_for_month('2022-02')
 puts '=================='
 puts loyalty_program.get_user(user.id).points_details
