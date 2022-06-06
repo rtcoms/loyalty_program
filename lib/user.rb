@@ -7,18 +7,22 @@ class User
     @id = SecureRandom.uuid
     @name = name
     @transactions = []
+    @points_details = { commulative_points: 0, monthwise_points: [] }
+    @reward_details = { monthwise_rewards: {} }
   end
 
   def set_points_details(points_details)
     @points_details = points_details
+    self
   end
 
   def add_transaction(transaction)
     @transactions << transaction
+    self
   end
 
   def monthwise_transactions
-    @monthwise_transaction ||= @transactions.group_by { |t| t.date.strftime('%Y-%m') }
+    @transactions.group_by { |t| t.date.strftime('%Y-%m') }
   end
 
   def transactions_for_month(month)
@@ -27,5 +31,22 @@ class User
 
   def points_for_month(month)
     @points_details[:monthwise_points].find { |p| p[:month] == month }[:points]
+  end
+
+  def reward_free_coffee_for_month(month)
+    if @reward_details[:monthwise_rewards][month].nil?
+      @reward_details[:monthwise_rewards][month] = { free_coffee: 1 }
+    elsif @reward_details[:monthwise_rewards][month][:free_coffee].nil?
+      @reward_details[:monthwise_rewards][month][:free_coffee] = 1
+    else
+      @reward_details[:monthwise_rewards][month][:free_coffee] += 1
+    end
+    self
+  end
+
+  def has_free_coffee_for_month?(month)
+    return false if @reward_details[:monthwise_rewards][month].nil?
+
+    @reward_details[:monthwise_rewards][month][:free_coffee].to_i > 0
   end
 end

@@ -17,12 +17,17 @@ point_earning_rule_engine = PointsEarningRuleEngine.new
 point_earning_rule_engine.add_rule(AmountSpentPointEarningRule.new)
 loyalty_program.add_rule_engine(point_earning_rule_engine)
 
+reward_rule_engine = RewardRuleEngine.new
+reward_rule_engine.add_rule(MonthlyFreeCoffeeRewardRule.new)
+loyalty_program.add_rule_engine(reward_rule_engine)
+
 transaction1 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 100, date: '2022-01-01')
 
 loyalty_program.add_transaction(transaction1)
 
 puts '=================='
 puts loyalty_program.get_user(user.id).points_details
+puts loyalty_program.get_user(user.id).reward_details
 
 
 transaction1 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 1000, date: '2022-01-01')
@@ -31,6 +36,7 @@ loyalty_program.add_transaction(transaction1)
 
 puts '=================='
 puts loyalty_program.get_user(user.id).points_details
+puts loyalty_program.get_user(user.id).reward_details
 
 transaction1 = Transaction.create_transaction(user: user, currency: Config::USD, amount: 1000, date: '2022-01-01')
 
@@ -38,4 +44,5 @@ loyalty_program.add_transaction(transaction1)
 
 puts '=================='
 puts loyalty_program.get_user(user.id).points_details
+puts loyalty_program.get_user(user.id).reward_details
 

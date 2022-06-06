@@ -62,4 +62,14 @@ class UserTest < Test::Unit::TestCase
     user.set_points_details({ commulative_points: 100, monthwise_points: [{ month: '2022-01', points: 20 }, { month: '2022-02', points: 30 }] })
     assert_equal(user.points_for_month('2022-02'), 30)
   end
+
+  def test_reward_free_coffee_for_month
+    user = User.new(name: 'Doe')
+
+    user.reward_free_coffee_for_month('2022-01')
+    assert_equal(user.reward_details, { monthwise_rewards: { '2022-01' => { free_coffee: 1 } } })
+
+    user.reward_free_coffee_for_month('2022-01')
+    assert_equal(user.reward_details, { monthwise_rewards: { '2022-01' => { free_coffee: 2 } } })
+  end
 end
